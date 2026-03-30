@@ -1,2 +1,2 @@
 # Google-Sheet-Automation
-Automate Google sheet data into Charts / Dashboards
+Automated daily revenue reports from Google Sheets sent to your email.
