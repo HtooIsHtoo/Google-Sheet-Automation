@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+    :root { --bg:#f3f6fc; --card-bg:#ffffff; --accent:#2a3ff7; --text-primary:#0b1a33; --text-secondary:#5a6876; --border-light:#e2e9f0; --radius-lg:24px; --radius-md:16px; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text-primary); padding:32px 24px; display:flex; justify-content:center; }
+    .charts-dashboard { max-width:1400px; width:100%; }
+    .loading-container { text-align:center; padding:80px 20px; background:white; border-radius:var(--radius-lg); box-shadow:0 10px 30px -6px rgba(0,20,50,0.06); }
+    .spinner-large { width:60px; height:60px; border:4px solid #e2e9f0; border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 24px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .header-card { background:var(--card-bg); border-radius:var(--radius-lg); padding:28px 32px; box-shadow:0 10px 30px -6px rgba(0,20,50,0.06); margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; border:1px solid var(--border-light); }
+    .header-card h2 { font-size:1.8rem; font-weight:700; display:flex; align-items:center; gap:14px; }
+    .header-card h2 i { color:var(--accent); }
+    .stats-row { display:flex; gap:24px; color:var(--text-secondary); background:#f8fafc; padding:12px 24px; border-radius:60px; font-size:0.9rem; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .full-width { grid-column:1/-1; }
+    .chart-card { background:var(--card-bg); border-radius:var(--radius-lg); padding:20px 20px 12px; box-shadow:0 8px 24px -8px rgba(0,0,0,0.04); border:1px solid var(--border-light); transition:all 0.2s; }
+    .chart-card:hover { box-shadow:0 16px 32px -12px rgba(42,63,247,0.12); border-color:var(--accent); }
+    .chart-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; font-weight:600; color:var(--text-primary); border-bottom:1px solid var(--border-light); padding-bottom:12px; }
+    .chart-header i { color:var(--accent); font-size:1.2rem; }
+    .chart-container { height:340px; width:100%; }
+    .no-data { grid-column:1/-1; text-align:center; padding:80px; background:white; border-radius:var(--radius-lg); color:var(--text-secondary); }
+    .no-data i { font-size:3rem; color:#cbd5e0; margin-bottom:20px; }
+    .no-data-title { font-size:1.3rem; font-weight:600; margin-bottom:8px; color:var(--text-primary); }
+    .error-box { grid-column:1/-1; background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:24px; border-radius:var(--radius-lg); display:flex; align-items:flex-start; gap:16px; }
+    .error-box i { font-size:1.5rem; margin-top:2px; }
+    .error-content h3 { font-size:1.1rem; margin-bottom:8px; }
+    .error-content p { font-size:0.9rem; line-height:1.5; opacity:0.9; }
+    @media (max-width:900px) { .grid { grid-template-columns:1fr; } .full-width { grid-column:1; } }
+  </style>
+</head>
+<body>
+  <div class="charts-dashboard">
+    <div id="loadingState" class="loading-container">
+      <div class="spinner-large"></div>
+      <h3 style="color:var(--text-secondary);font-weight:500;">Loading chart data...</h3>
+      <p style="color:var(--text-secondary);opacity:0.7;margin-top:8px;font-size:0.9rem;">Analyzing yesterday's performance</p>
+    </div>
+    <div id="headerCard" class="header-card" style="display:none;">
+      <div>
+        <h2><i class="fas fa-chart-line"></i> Revenue &amp; Orders Analytics</h2>
+        <div style="font-size:0.9rem;font-weight:400;color:var(--text-secondary);margin-top:4px;">Yesterday vs Day Before · Interactive Charts</div>
+      </div>
+      <div class="stats-row">
+        <span><i class="far fa-calendar-alt"></i> Yesterday</span>
+        <span style="opacity:0.5;">•</span>
+        <span><i class="fas fa-arrow-right"></i> Comparison</span>
+      </div>
+    </div>
+    <div id="charts" class="grid" style="display:none;"></div>
+  </div>
+
+  <script>
+    google.charts.load('current', { packages: ['corechart', 'bar'], callback: init, language: 'en' });
+
+    function init() {
+      google.script.run
+        .withSuccessHandler(handleChartData)
+        .withFailureHandler(handleError)
+        .getLatestChartData();
+    }
+
+    function handleError(error) {
+      document.getElementById('loadingState').style.display = 'none';
+      const container = document.getElementById('charts');
+      container.style.display = 'grid';
+      container.innerHTML = `
+        <div class="error-box">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="error-content">
+            <h3>Unable to Load Charts</h3>
+            <p>${error.message || 'An error occurred while loading chart data.'}</p>
+            <p style="margin-top:12px;font-size:0.85rem;"><strong>Common solutions:</strong><br>
+              • Verify sheet name and column names are correct<br>
+              • Ensure you have data for yesterday and the day before<br>
+              • Check that date values are properly formatted
+            </p>
+          </div>
+        </div>`;
+    }
+
+    function handleChartData(data) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('headerCard').style.display = 'flex';
+      const container = document.getElementById('charts');
+      container.style.display = 'grid';
+
+      if (data && data.error) {
+        container.innerHTML = `<div class="error-box"><i class="fas fa-exclamation-triangle"></i><div class="error-content"><h3>Data Error</h3><p>${data.error}</p></div></div>`;
+        return;
+      }
+      if (!data || !data.pieRevenue || data.pieRevenue.length <= 1) {
+        container.innerHTML = `<div class="no-data"><i class="fas fa-chart-line"></i><div class="no-data-title">No Data Available</div><div class="no-data-text">No chart data found for yesterday.<br>Please ensure your sheet has data with valid dates.</div></div>`;
+        return;
+      }
+      drawCharts(data);
+    }
+
+    function drawCharts(data) {
+      const container = document.getElementById('charts');
+      container.innerHTML = `
+        <div class="chart-card" id="pieRevenueCard">
+          <div class="chart-header"><i class="fas fa-chart-pie"></i> Revenue by Product</div>
+          <div class="chart-container" id="pieRevenue"></div>
+        </div>
+        <div class="chart-card" id="pieOrdersCard">
+          <div class="chart-header"><i class="fas fa-chart-pie"></i> Orders by Product</div>
+          <div class="chart-container" id="pieOrders"></div>
+        </div>
+        <div class="chart-card full-width">
+          <div class="chart-header"><i class="fas fa-chart-column"></i> Revenue Comparison (Yesterday vs Day Before)</div>
+          <div class="chart-container" id="revenueCompare"></div>
+        </div>
+        <div class="chart-card full-width">
+          <div class="chart-header"><i class="fas fa-chart-column"></i> Orders Comparison (Yesterday vs Day Before)</div>
+          <div class="chart-container" id="ordersCompare"></div>
+        </div>`;
+
+      const COLORS = ['#2a3ff7','#5b8af0','#7ac3f0','#10b981','#f59e0b','#ef4444','#a855f7','#ec4899','#14b8a6','#f97316'];
+
+      const baseOpts = {
+        fontName: 'Inter', fontSize: 13,
+        tooltip: { textStyle: { fontName: 'Inter' } },
+        legend: { textStyle: { fontName: 'Inter', fontSize: 12 } }
+      };
+
+      // Pie: Revenue
+      const pieRevData = google.visualization.arrayToDataTable(data.pieRevenue);
+      new google.visualization.PieChart(document.getElementById('pieRevenue')).draw(pieRevData, Object.assign({}, baseOpts, {
+        pieHole: 0.45,
+        legend: { position: 'right', textStyle: { fontName: 'Inter', fontSize: 12 } },
+        chartArea: { width: '75%', height: '80%' },
+        colors: COLORS
+      }));
+
+      // Pie: Orders
+      const pieOrdData = google.visualization.arrayToDataTable(data.pieOrders);
+      new google.visualization.PieChart(document.getElementById('pieOrders')).draw(pieOrdData, Object.assign({}, baseOpts, {
+        pieHole: 0.45,
+        legend: { position: 'right', textStyle: { fontName: 'Inter', fontSize: 12 } },
+        chartArea: { width: '75%', height: '80%' },
+        colors: COLORS
+      }));
+
+      // Column: Revenue
+      const revCompData = google.visualization.arrayToDataTable(data.revenueCompare);
+      new google.visualization.ColumnChart(document.getElementById('revenueCompare')).draw(revCompData, Object.assign({}, baseOpts, {
+        isStacked: false,
+        legend: { position: 'top', textStyle: { fontName: 'Inter' } },
+        vAxis: { title: 'Amount ($)', titleTextStyle: { fontName: 'Inter', fontSize: 12 }, textStyle: { fontName: 'Inter' }, format: '$#,###' },
+        hAxis: { textStyle: { fontName: 'Inter' } },
+        chartArea: { width: '75%', height: '70%' },
+        colors: ['#2a3ff7', '#10b981'],
+        bar: { groupWidth: '70%' }
+      }));
+
+      // Column: Orders
+      const ordCompData = google.visualization.arrayToDataTable(data.ordersCompare);
+      new google.visualization.ColumnChart(document.getElementById('ordersCompare')).draw(ordCompData, Object.assign({}, baseOpts, {
+        isStacked: false,
+        legend: { position: 'top', textStyle: { fontName: 'Inter' } },
+        vAxis: { title: 'Orders', titleTextStyle: { fontName: 'Inter', fontSize: 12 }, textStyle: { fontName: 'Inter' } },
+        hAxis: { textStyle: { fontName: 'Inter' } },
+        chartArea: { width: '75%', height: '70%' },
+        colors: ['#2a3ff7', '#10b981'],
+        bar: { groupWidth: '70%' }
+      }));
+    }
+  </script>
+</body>
+</html>

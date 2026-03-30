@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f3f6fc; --card-bg: rgba(255,255,255,0.95); --accent: #2a3ff7; --accent-soft: #e9edff;
+      --text-primary: #0b1a33; --text-secondary: #5a6876; --border-light: #e2e9f0;
+      --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+      --shadow-sm: 0 10px 25px -5px rgba(0,20,50,0.08); --radius-lg: 24px; --radius-md: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.5; padding: 24px; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .glass-card { max-width: 800px; width: 100%; background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px 36px; border: 1px solid rgba(255,255,255,0.6); }
+    h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+    h2 i { color: var(--accent); font-size: 2rem; }
+    .section-subhead { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 28px; border-bottom: 1px solid var(--border-light); padding-bottom: 16px; }
+    .alert { padding: 14px 18px; border-radius: var(--radius-md); margin-bottom: 20px; display: none; align-items: center; gap: 12px; font-size: 0.9rem; }
+    .alert.show { display: flex; }
+    .alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .checklist { background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; }
+    .checklist-title { font-weight: 600; font-size: 0.85rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .checklist-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .checklist-item i { width: 20px; color: #cbd5e0; }
+    .checklist-item.complete i { color: var(--success); }
+    .field-group { margin-bottom: 24px; }
+    label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-secondary); margin-bottom: 6px; }
+    label i { width: 18px; color: var(--accent); }
+    label .required { color: var(--danger); margin-left: 4px; }
+    input, select { width: 100%; padding: 14px 18px; border: 1px solid var(--border-light); border-radius: var(--radius-md); font-size: 0.95rem; transition: all 0.2s; background: white; font-family: 'Inter', sans-serif; }
+    input.error { border-color: var(--danger); background: #fef2f2; }
+    input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42,63,247,0.15); }
+    .row-duo { display: flex; gap: 20px; }
+    .row-duo > * { flex: 1; }
+    hr { margin: 32px 0 24px; border: none; border-top: 1px solid var(--border-light); }
+    .recipients-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+    .recipients-header h3 { font-weight: 600; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+    .recipient-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; background: #fafcff; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-light); transition: all 0.2s; }
+    .recipient-row:hover { background: white; border-color: var(--accent); }
+    .time-input { width: 110px; }
+    .btn-add { background: white; border: 1.5px dashed var(--border-light); padding: 12px 20px; border-radius: 50px; font-weight: 600; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s; }
+    .btn-add:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    .btn-remove { background: none; border: none; color: #a0aec0; cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; }
+    .btn-remove:hover { color: #e53e3e; background: #fff5f5; }
+    .action-footer { display: flex; justify-content: flex-end; gap: 16px; margin-top: 36px; }
+    .btn { padding: 14px 28px; border-radius: 40px; font-weight: 600; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-size: 0.95rem; transition: all 0.2s; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: white; box-shadow: 0 8px 16px -6px rgba(42,63,247,0.3); }
+    .btn-primary:hover:not(:disabled) { background: #1e2fd6; transform: translateY(-2px); }
+    .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-light); }
+    .btn-test { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .btn-test:hover:not(:disabled) { background: #d1fae5; }
+    .small-hint { font-size: 0.75rem; color: var(--text-secondary); margin-top: 6px; display: flex; align-items: center; gap: 6px; }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
+    .return-config-box { background: #fff5f5; border: 1px solid #fecaca; border-radius: var(--radius-md); padding: 16px 18px; margin-top: 10px; display: none; }
+    .return-config-box.visible { display: block; }
+    .return-config-box label { color: #991b1b; }
+    .return-config-box label i { color: #ef4444; }
+    .return-config-box input { border-color: #fecaca; }
+    .return-config-box input:focus { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+    .return-config-box .small-hint { color: #b91c1c; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeOut { to { opacity: 0; transform: scale(0.95); } }
+  </style>
+</head>
+<body>
+  <div class="glass-card">
+    <h2><i class="fas fa-chart-line"></i> Daily Revenue Setup</h2>
+    <div class="section-subhead"><i class="fas fa-sliders-h"></i> Configure data columns &amp; recipients · Version 2.0</div>
+
+    <div id="alertBox" class="alert"></div>
+
+    <div class="checklist">
+      <div class="checklist-title"><i class="fas fa-list-check"></i> Setup Checklist</div>
+      <div class="checklist-item" id="check-sheet"><i class="far fa-circle"></i><span>Sheet name configured</span></div>
+      <div class="checklist-item" id="check-columns"><i class="far fa-circle"></i><span>Required columns set</span></div>
+      <div class="checklist-item" id="check-recipients"><i class="far fa-circle"></i><span>At least one recipient added</span></div>
+    </div>
+
+    <div class="field-group">
+      <label><i class="fas fa-table"></i> Data Sheet Name <span class="required">*</span></label>
+      <input id="sheetName" type="text" placeholder="e.g., Orders" autofocus>
+      <div class="small-hint"><i class="fas fa-info-circle"></i> Must match exactly (case-sensitive)</div>
+    </div>
+
+    <div class="row-duo">
+      <div class="field-group">
+        <label><i class="fas fa-hashtag"></i> Order ID Column</label>
+        <input id="orderCol" type="text" placeholder="Order ID">
+      </div>
+      <div class="field-group">
+        <label><i class="fas fa-dollar-sign"></i> Revenue Column <span class="required">*</span></label>
+        <input id="revenueCol" type="text" placeholder="Revenue">
+      </div>
+    </div>
+
+    <div class="row-duo">
+      <div class="field-group">
+        <label><i class="fas fa-cube"></i> Product / Category <span class="required">*</span></label>
+        <input id="productCol" type="text" placeholder="Product">
+      </div>
+      <div class="field-group">
+        <label><i class="fas fa-undo-alt"></i> Return / Status Column</label>
+        <input id="refundCol" type="text" placeholder='Column name or "No"' oninput="onRefundColChange()">
+        <div class="small-hint"><i class="fas fa-info-circle"></i> Type "No" if you don't track returns</div>
+        <div id="returnConfigBox" class="return-config-box">
+          <label><i class="fas fa-exchange-alt"></i> Return Cell Value <span class="required">*</span></label>
+          <input id="returnValue" type="text" placeholder='e.g. "Return", "Refund", "Yes", "R"'>
+          <div class="small-hint"><i class="fas fa-info-circle"></i> Rows where <strong id="refundColName">this column</strong> = this value are counted as returns and excluded from orders &amp; revenue.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label><i class="fas fa-calendar-alt"></i> Date Column <span class="required">*</span></label>
+      <input id="dateCol" type="text" placeholder="Date">
+      <div class="small-hint"><i class="fas fa-info-circle"></i> Must contain valid dates</div>
+    </div>
+
+    <hr>
+
+    <div class="recipients-header">
+      <h3><i class="fas fa-envelope"></i> Email Recipients</h3>
+      <span class="small-hint"><i class="fas fa-clock"></i> Timezone: <span id="tzDisplay">Loading...</span></span>
+    </div>
+    <div id="recipients"></div>
+    <div style="margin-top:16px;">
+      <button class="btn-add" onclick="addRecipient()"><i class="fas fa-plus-circle"></i> Add recipient</button>
+    </div>
+
+    <div style="margin-top:28px;">
+      <label><i class="fas fa-bullseye"></i> Daily Target (optional)</label>
+      <input id="dailyTarget" type="text" placeholder="e.g., 1000">
+      <div class="small-hint"><i class="fas fa-info-circle"></i> For reference only</div>
+    </div>
+
+    <div class="action-footer">
+      <button class="btn btn-secondary" onclick="closeDialog()"><i class="fas fa-times"></i> Cancel</button>
+      <button class="btn btn-test" onclick="validateAndTest()" id="btnTest"><i class="fas fa-flask"></i> Validate &amp; Test</button>
+      <button class="btn btn-primary" onclick="save()" id="btnSave"><i class="fas fa-save"></i> Save &amp; Schedule</button>
+    </div>
+  </div>
+
+  <script>
+    let recipients = [];
+
+    google.script.run
+      .withSuccessHandler(function(status) {
+        if (status && status.timezone) document.getElementById('tzDisplay').textContent = status.timezone;
+      })
+      .getStatusForClient();
+
+    function onRefundColChange() {
+      const val = document.getElementById('refundCol').value.trim();
+      const box = document.getElementById('returnConfigBox');
+      const nameEl = document.getElementById('refundColName');
+      if (val && val.toLowerCase() !== 'no') {
+        box.classList.add('visible');
+        nameEl.textContent = '"' + val + '"';
+      } else {
+        box.classList.remove('visible');
+      }
+      updateChecklist();
+    }
+
+    function showAlert(msg, type = 'error') {
+      const el = document.getElementById('alertBox');
+      el.className = `alert alert-${type} show`;
+      el.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i><span>${msg}</span>`;
+      if (type === 'success') setTimeout(() => el.classList.remove('show'), 5000);
+    }
+    function hideAlert() { document.getElementById('alertBox').classList.remove('show'); }
+
+    function updateChecklist() {
+      const sn = document.getElementById('sheetName').value.trim();
+      const rc = document.getElementById('revenueCol').value.trim();
+      const pc = document.getElementById('productCol').value.trim();
+      const dc = document.getElementById('dateCol').value.trim();
+
+      const cs = document.getElementById('check-sheet');
+      cs.classList.toggle('complete', !!sn);
+      cs.querySelector('i').className = sn ? 'fas fa-check-circle' : 'far fa-circle';
+
+      const cc = document.getElementById('check-columns');
+      cc.classList.toggle('complete', !!(rc && pc && dc));
+      cc.querySelector('i').className = (rc && pc && dc) ? 'fas fa-check-circle' : 'far fa-circle';
+
+      const cr = document.getElementById('check-recipients');
+      const hasRec = collectRecipients().length > 0;
+      cr.classList.toggle('complete', hasRec);
+      cr.querySelector('i').className = hasRec ? 'fas fa-check-circle' : 'far fa-circle';
+    }
+
+    document.addEventListener('input', updateChecklist);
+
+    function addRecipient(pref) {
+      const idx = recipients.length;
+      const container = document.getElementById('recipients');
+      const row = document.createElement('div');
+      row.className = 'recipient-row';
+      row.id = 'recip-' + idx;
+      row.style.animation = 'fadeIn 0.2s';
+      row.innerHTML = `
+        <input type="email" id="email-${idx}" placeholder="email@example.com" style="flex:1;" value="${pref?.email || ''}" oninput="updateChecklist()">
+        <input type="time" id="time-${idx}" class="time-input" value="${pref?.time || '09:00'}">
+        <button class="btn-remove" onclick="removeRecipient(${idx})" title="Remove"><i class="fas fa-trash-alt"></i></button>
+      `;
+      container.appendChild(row);
+      recipients.push(pref || {});
+      updateChecklist();
+    }
+
+    function removeRecipient(i) {
+      const el = document.getElementById('recip-' + i);
+      if (el) { el.style.animation = 'fadeOut 0.2s forwards'; setTimeout(() => { el.remove(); updateChecklist(); }, 200); }
+      recipients[i] = null;
+    }
+
+    function collectRecipients() {
+      const out = [];
+      document.querySelectorAll('.recipient-row').forEach((r, i) => {
+        const emailEl = r.querySelector(`#email-${i}`);
+        const timeEl = r.querySelector(`#time-${i}`);
+        if (!emailEl) return;
+        const email = emailEl.value.trim();
+        const time = (timeEl && timeEl.value) || '09:00';
+        if (email && email.includes('@')) {
+          const [hour, minute] = time.split(':');
+          out.push({ email, hour: parseInt(hour, 10), minute: parseInt(minute, 10) });
+        }
+      });
+      return out;
+    }
+
+    function buildConfig() {
+      const refundCol = document.getElementById('refundCol').value.trim();
+      const hasRefundCol = refundCol && refundCol.toLowerCase() !== 'no';
+      return {
+        sheetName:   document.getElementById('sheetName').value.trim(),
+        orderCol:    document.getElementById('orderCol').value.trim(),
+        revenueCol:  document.getElementById('revenueCol').value.trim(),
+        productCol:  document.getElementById('productCol').value.trim(),
+        refundCol:   refundCol,
+        returnValue: hasRefundCol ? document.getElementById('returnValue').value.trim() : '',
+        dateCol:     document.getElementById('dateCol').value.trim(),
+        dailyTarget: document.getElementById('dailyTarget').value.trim(),
+        recipients:  collectRecipients()
+      };
+    }
+
+    function validateConfig() {
+      hideAlert();
+      const config = buildConfig();
+      const hasRefundCol = config.refundCol && config.refundCol.toLowerCase() !== 'no';
+      if (!config.sheetName) { showAlert('⚠️ Please enter a sheet name'); document.getElementById('sheetName').classList.add('error'); return null; }
+      if (!config.revenueCol) { showAlert('⚠️ Revenue column is required'); document.getElementById('revenueCol').classList.add('error'); return null; }
+      if (!config.productCol) { showAlert('⚠️ Product column is required'); document.getElementById('productCol').classList.add('error'); return null; }
+      if (!config.dateCol) { showAlert('⚠️ Date column is required'); document.getElementById('dateCol').classList.add('error'); return null; }
+      if (hasRefundCol && !config.returnValue) { showAlert('⚠️ Please enter the cell value that marks a return row'); document.getElementById('returnValue').classList.add('error'); return null; }
+      if (config.recipients.length === 0) { showAlert('⚠️ Please add at least one recipient'); return null; }
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      return config;
+    }
+
+    function validateAndTest() {
+      const config = validateConfig();
+      if (!config) return;
+      const btn = document.getElementById('btnTest');
+      const orig = btn.innerHTML;
+      btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Testing...';
+      google.script.run
+        .withSuccessHandler(r => { btn.disabled = false; btn.innerHTML = orig; r.success ? showAlert('✅ Configuration valid! Ready to save.', 'success') : showAlert('❌ ' + (r.message || 'Validation failed')); })
+        .withFailureHandler(e => { btn.disabled = false; btn.innerHTML = orig; showAlert('❌ Error: ' + e.message); })
+        .saveConfig(config);
+    }
+
+    function save() {
+      const config = validateConfig();
+      if (!config) return;
+      const btn = document.getElementById('btnSave');
+      const orig = btn.innerHTML;
+      btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Saving...';
+      google.script.run
+        .withSuccessHandler(r => {
+          btn.disabled = false; btn.innerHTML = orig;
+          if (r.success) { showAlert(r.message || '✅ Saved!', 'success'); setTimeout(() => { google.script.host.close(); google.script.run.showControl(); }, 1500); }
+          else showAlert('❌ ' + (r.message || 'Failed to save'));
+        })
+        .withFailureHandler(e => { btn.disabled = false; btn.innerHTML = orig; showAlert('❌ Error: ' + e.message); })
+        .saveConfig(config);
+    }
+
+    function closeDialog() { google.script.host.close(); }
+
+    addRecipient();
+    updateChecklist();
+  </script>
+</body>
+</html>

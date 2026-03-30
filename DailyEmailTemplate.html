@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 24px; background: #f3f6fc; color: #0b1a33; -webkit-font-smoothing: antialiased; }
+    .email-container { max-width: 680px; margin: 0 auto; background: white; border-radius: 24px; box-shadow: 0 12px 30px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e9f0; }
+    .header { background: linear-gradient(145deg, #ffffff, #f9fcff); padding: 32px 32px 24px; border-bottom: 1px solid #e2e9f0; }
+    .header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
+    .badge { display: inline-block; background: #fff4e6; color: #d97706; font-size: 0.75rem; font-weight: 600; padding: 4px 12px; border-radius: 30px; margin-left: 12px; border: 1px solid #fbbf24; }
+    .header-meta { color: #5a6876; font-size: 0.95rem; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .content { padding: 24px 32px 32px; }
+    .metrics-grid { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .metric-card { flex: 1; min-width: 150px; border-radius: 20px; padding: 18px 20px; color: white; }
+    .metric-card.purple { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 12px rgba(102,126,234,0.25); }
+    .metric-card.green  { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+    .metric-card.amber  { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 12px rgba(245,158,11,0.25); }
+    .metric-card.red    { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 4px 12px rgba(239,68,68,0.25); }
+    .metric-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.9; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+    .metric-value { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+    .metric-sub { font-size: 0.73rem; opacity: 0.8; margin-top: 5px; }
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .comparison-table th { background: #f3f6fc; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: #5a6876; padding: 14px 12px; text-align: left; }
+    .comparison-table td { padding: 12px; border-bottom: 1px solid #e2e9f0; }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .metric-name { font-weight: 500; }
+    .change-up { color: #10b981; font-weight: 600; }
+    .change-down { color: #ef4444; font-weight: 600; }
+    .product-table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .product-table th { background: #f3f6fc; padding: 12px; font-size: 0.8rem; font-weight: 600; color: #5a6876; text-align: left; text-transform: uppercase; letter-spacing: 0.03em; }
+    .product-table td { padding: 12px; border-bottom: 1px solid #f0f4f9; }
+    .product-table tr:last-child td { border-bottom: none; }
+    .return-table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #fecaca; }
+    .return-table th { background: #fef2f2; padding: 12px; font-size: 0.8rem; font-weight: 600; color: #991b1b; text-align: left; text-transform: uppercase; letter-spacing: 0.03em; }
+    .return-table td { padding: 12px; border-bottom: 1px solid #fff1f1; color: #7f1d1d; }
+    .return-table tr:last-child td { border-bottom: none; }
+    .net-summary { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-left: 4px solid #10b981; padding: 16px; border-radius: 12px; margin: 16px 0; display: flex; gap: 12px; align-items: flex-start; }
+    .alert-box { background: linear-gradient(135deg, #fef9e7, #fff8dc); border-left: 4px solid #f59e0b; padding: 16px; border-radius: 12px; margin: 24px 0; display: flex; gap: 12px; align-items: flex-start; }
+    .alert-icon { font-size: 1.4rem; }
+    .alert-content { flex: 1; }
+    .alert-title { font-weight: 600; margin-bottom: 4px; }
+    .alert-text { font-size: 0.9rem; }
+    h3 { font-weight: 600; font-size: 1.1rem; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+    .btn-cta { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; padding: 16px 32px; border-radius: 40px; text-decoration: none; box-shadow: 0 8px 20px rgba(102,126,234,0.35); }
+    .cta-section { text-align: center; margin-top: 36px; }
+    .cta-hint { font-size: 0.75rem; color: #8a99aa; margin-top: 12px; }
+    .footer-note { font-size: 0.75rem; color: #8a99aa; border-top: 1px solid #e2e9f0; margin-top: 28px; padding-top: 20px; line-height: 1.6; }
+    @media only screen and (max-width: 600px) { body { padding: 12px; } .metrics-grid { flex-direction: column; } .header h1 { font-size: 1.5rem; } }
+  </style>
+</head>
+<body>
+<div class="email-container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      <span style="color:#667eea;">📊</span> Daily Revenue Report
+      <? if (isTest) { ?><span class="badge">🧪 TEST</span><? } ?>
+    </h1>
+    <div class="header-meta">
+      <span style="font-weight:600;">📅 <?= formatDate(report.date) ?></span>
+      <span style="color:#cbd5e0;">•</span>
+      <span style="font-style:italic;">for <?= recipient.email ?></span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Row 1: Net Revenue + Orders -->
+    <div class="metrics-grid">
+      <div class="metric-card purple">
+        <div class="metric-label"><span>💰</span> TOTAL REVENUE</div>
+        <div class="metric-value">$<?= numberWithCommas(report.metricsA.netLeftRevenue.toFixed(2)) ?></div>
+        <div class="metric-sub">After returns · Gross: $<?= numberWithCommas(report.metricsA.totalRevenue.toFixed(2)) ?></div>
+      </div>
+      <div class="metric-card green">
+        <div class="metric-label"><span>📦</span> ORDERS</div>
+        <div class="metric-value"><?= numberWithCommas(report.metricsA.totalOrders) ?></div>
+        <div class="metric-sub">Returns excluded</div>
+      </div>
+    </div>
+
+    <!-- Row 2: AOV + Refund Total -->
+    <div class="metrics-grid">
+      <div class="metric-card amber">
+        <div class="metric-label"><span>📊</span> AVG ORDER VALUE</div>
+        <div class="metric-value">$<?= numberWithCommas(report.metricsA.aov.toFixed(2)) ?></div>
+        <div class="metric-sub">Per non-return order</div>
+      </div>
+      <div class="metric-card red">
+        <div class="metric-label"><span>🔄</span> RETURNS TOTAL</div>
+        <div class="metric-value">$<?= numberWithCommas(report.metricsA.totalRefundAmount.toFixed(2)) ?></div>
+        <div class="metric-sub"><?= numberWithCommas(report.metricsA.totalReturnCount) ?> return<?= report.metricsA.totalReturnCount !== 1 ? 's' : '' ?></div>
+      </div>
+    </div>
+
+    <!-- Day-over-day -->
+    <h3>📈 Day-over-day Performance</h3>
+    <table class="comparison-table">
+      <tr>
+        <th></th>
+        <th><?= formatDate(report.compareDate) ?></th>
+        <th><?= formatDate(report.date) ?></th>
+        <th>Change</th>
+      </tr>
+      <tr>
+        <td class="metric-name">Net Left Revenue</td>
+        <td>$<?= numberWithCommas(report.metricsB.netLeftRevenue.toFixed(2)) ?></td>
+        <td><strong>$<?= numberWithCommas(report.metricsA.netLeftRevenue.toFixed(2)) ?></strong></td>
+        <td>
+          <?
+            var netChg = report.metricsB.netLeftRevenue !== 0
+              ? ((report.metricsA.netLeftRevenue - report.metricsB.netLeftRevenue) / Math.abs(report.metricsB.netLeftRevenue)) * 100
+              : (report.metricsA.netLeftRevenue > 0 ? 100 : 0);
+            if (!isFinite(netChg)) netChg = 0;
+          ?>
+          <span class="<?= netChg >= 0 ? 'change-up' : 'change-down' ?>"><?= netChg >= 0 ? '▲' : '▼' ?> <?= Math.abs(netChg).toFixed(1) ?>%</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="metric-name">Gross Revenue</td>
+        <td>$<?= numberWithCommas(report.metricsB.totalRevenue.toFixed(2)) ?></td>
+        <td><strong>$<?= numberWithCommas(report.metricsA.totalRevenue.toFixed(2)) ?></strong></td>
+        <td class="<?= report.revenueChangePct >= 0 ? 'change-up' : 'change-down' ?>"><?= report.revenueChangePct >= 0 ? '▲' : '▼' ?> <?= Math.abs(report.revenueChangePct).toFixed(1) ?>%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">Orders</td>
+        <td><?= numberWithCommas(report.metricsB.totalOrders) ?></td>
+        <td><strong><?= numberWithCommas(report.metricsA.totalOrders) ?></strong></td>
+        <td class="<?= report.ordersChangePct >= 0 ? 'change-up' : 'change-down' ?>"><?= report.ordersChangePct >= 0 ? '▲' : '▼' ?> <?= Math.abs(report.ordersChangePct).toFixed(1) ?>%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">Avg Order Value</td>
+        <td>$<?= numberWithCommas(report.metricsB.aov.toFixed(2)) ?></td>
+        <td><strong>$<?= numberWithCommas(report.metricsA.aov.toFixed(2)) ?></strong></td>
+        <td>
+          <?
+            var aovChg = report.metricsB.aov !== 0
+              ? ((report.metricsA.aov - report.metricsB.aov) / Math.abs(report.metricsB.aov)) * 100
+              : 0;
+            if (!isFinite(aovChg)) aovChg = 0;
+          ?>
+          <span class="<?= aovChg >= 0 ? 'change-up' : 'change-down' ?>"><?= aovChg >= 0 ? '▲' : '▼' ?> <?= Math.abs(aovChg).toFixed(1) ?>%</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="metric-name">Returns Amount</td>
+        <td>$<?= numberWithCommas(report.metricsB.totalRefundAmount.toFixed(2)) ?></td>
+        <td><strong>$<?= numberWithCommas(report.metricsA.totalRefundAmount.toFixed(2)) ?></strong></td>
+        <td>
+          <?
+            var retChg = report.metricsB.totalRefundAmount !== 0
+              ? ((report.metricsA.totalRefundAmount - report.metricsB.totalRefundAmount) / Math.abs(report.metricsB.totalRefundAmount)) * 100
+              : 0;
+            if (!isFinite(retChg)) retChg = 0;
+          ?>
+          <!-- More returns = bad, so up is red -->
+          <span class="<?= retChg > 0 ? 'change-down' : 'change-up' ?>"><?= retChg >= 0 ? '▲' : '▼' ?> <?= Math.abs(retChg).toFixed(1) ?>%</span>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Product Breakdown -->
+    <h3>🏷️ Revenue by Product</h3>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Revenue</th>
+          <th>Orders</th>
+          <th>Avg Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?
+        var productList = [];
+        for (var p in report.metricsA.byProduct) {
+          productList.push({ name: p, revenue: report.metricsA.byProduct[p].revenue, orders: report.metricsA.byProduct[p].orders });
+        }
+        productList.sort(function(a, b) { return b.revenue - a.revenue; });
+        for (var i = 0; i < productList.length; i++) {
+          var prod = productList[i];
+          var avgValue = prod.orders > 0 ? prod.revenue / prod.orders : 0;
+        ?>
+        <tr>
+          <td style="font-weight:500;"><?= prod.name ?></td>
+          <td>$<?= numberWithCommas(prod.revenue.toFixed(2)) ?></td>
+          <td><?= numberWithCommas(prod.orders) ?></td>
+          <td>$<?= numberWithCommas(avgValue.toFixed(2)) ?></td>
+        </tr>
+        <? } ?>
+      </tbody>
+    </table>
+
+    <!-- Returns & Refunds Breakdown -->
+    <?
+      var hasReturns = false;
+      for (var rp in report.metricsA.byReturnProduct) { hasReturns = true; break; }
+    ?>
+    <? if (hasReturns || report.metricsA.totalReturnCount > 0) { ?>
+    <h3>🔄 Returns &amp; Refunds Breakdown</h3>
+    <table class="return-table">
+      <thead>
+        <tr>
+          <th>Product / Category</th>
+          <th>Refund Amount</th>
+          <th>Return Count</th>
+          <th>Avg Refund</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?
+        var returnList = [];
+        for (var rk in report.metricsA.byReturnProduct) {
+          returnList.push({ name: rk, amount: report.metricsA.byReturnProduct[rk].amount, count: report.metricsA.byReturnProduct[rk].count });
+        }
+        returnList.sort(function(a, b) { return b.amount - a.amount; });
+        for (var j = 0; j < returnList.length; j++) {
+          var ret = returnList[j];
+          var avgRefund = ret.count > 0 ? ret.amount / ret.count : 0;
+        ?>
+        <tr>
+          <td style="font-weight:500;"><?= ret.name ?></td>
+          <td>$<?= numberWithCommas(ret.amount.toFixed(2)) ?></td>
+          <td><?= numberWithCommas(ret.count) ?></td>
+          <td>$<?= numberWithCommas(avgRefund.toFixed(2)) ?></td>
+        </tr>
+        <? } ?>
+        <tr style="background:#fff0f0; font-weight:600;">
+          <td>Total Returns</td>
+          <td>$<?= numberWithCommas(report.metricsA.totalRefundAmount.toFixed(2)) ?></td>
+          <td><?= numberWithCommas(report.metricsA.totalReturnCount) ?></td>
+          <td>$<?= numberWithCommas((report.metricsA.totalReturnCount > 0 ? report.metricsA.totalRefundAmount / report.metricsA.totalReturnCount : 0).toFixed(2)) ?></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Net Left Revenue summary -->
+    <div class="net-summary">
+      <span class="alert-icon">💵</span>
+      <div class="alert-content">
+        <div class="alert-title" style="color:#065f46;">Net Left Revenue (after returns)</div>
+        <div class="alert-text" style="color:#047857;">
+          Gross: <strong>$<?= numberWithCommas(report.metricsA.totalRevenue.toFixed(2)) ?></strong>
+          &nbsp;−&nbsp; Returns: <strong>$<?= numberWithCommas(report.metricsA.totalRefundAmount.toFixed(2)) ?></strong>
+          &nbsp;=&nbsp; <strong style="font-size:1.05em; color:#064e3b;">$<?= numberWithCommas(report.metricsA.netLeftRevenue.toFixed(2)) ?></strong>
+        </div>
+      </div>
+    </div>
+    <? } ?>
+
+    <!-- Data quality warnings -->
+    <? if (report.dataQuality && (report.dataQuality.rowsA === 0 || report.dataQuality.rowsB === 0)) { ?>
+    <div class="alert-box" style="background:#fef2f2; border-left-color:#ef4444;">
+      <span class="alert-icon" style="color:#ef4444;">⚠️</span>
+      <div class="alert-content">
+        <div class="alert-title" style="color:#991b1b;">Data Warning</div>
+        <div class="alert-text" style="color:#7f1d1d;">
+          <? if (report.dataQuality.rowsA === 0) { ?>No data found for <?= formatDate(report.date) ?>. Please check your date column.<? } ?>
+          <? if (report.dataQuality.rowsB === 0) { ?>No comparison data found for <?= formatDate(report.compareDate) ?>.<? } ?>
+        </div>
+      </div>
+    </div>
+    <? } ?>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <a class="btn-cta" href="<?= createChartsLink(report) ?>">
+        <span style="margin-right:8px;">📊</span> View Interactive Charts
+      </a>
+      <div class="cta-hint">Open spreadsheet for detailed analytics and visualizations</div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-note">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><span>⚙️</span><strong>Configuration</strong></div>
+      To adjust recipients, columns, or delivery times, open your spreadsheet → Extensions → ☀️ Daily Revenue Report → Setup
+      <br><br>
+      <div style="opacity:0.7;">
+        <? if (isTest) { ?>🧪 This is a test email. Daily automation is not yet enabled.<? } else { ?>📧 Automated daily report · Powered by Apps Script v2.0<? } ?>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
