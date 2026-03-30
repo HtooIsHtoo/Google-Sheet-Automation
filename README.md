@@ -1,2 +1,2 @@
 # Google-Sheet-Automation
-Automate Google sheet data into Charts / Alerts / Dashboards
+Automate Google sheet data into Charts / Dashboards
