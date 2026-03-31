@@ -27,10 +27,6 @@ This tool automatically sends a clean daily revenue report from your Google Shee
 4. Run setup
 5. Receive daily reports automatically
 
-## 📦 Download
-
-Download latest version here:
-[Download ZIP](PASTE_GOOGLE_DRIVE_LINK)
 
 ## 🧠 Who This Is For
 - Small business owners
