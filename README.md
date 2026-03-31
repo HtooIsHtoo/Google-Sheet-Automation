@@ -1,160 +1,307 @@
-# ☀️ Daily Revenue Report
+# 🚀 Daily Revenue Report
 
-**Stop guessing your numbers every day.**
+**Google Sheets Automation**
 
-A complete Google Sheets automation that turns your messy spreadsheet into a clean, automated daily revenue report sent straight to your inbox.
+*Stop guessing your numbers every day.*
 
----
+You open your spreadsheet...
 
-## 🚀 What It Does
+Rows everywhere. Numbers everywhere.
 
-You open your spreadsheet... rows everywhere, numbers everywhere. But one simple question stays unanswered:
+*But one simple question stays unanswered:*
 
 > **"Did my business actually grow today?"**
 
-That's not analysis. That's busywork — and it's slowing you down.
+That's not analysis.
 
-Imagine waking up, opening your email, and instantly knowing:
+That's busywork --- and it's **slowing you down.**
 
-| What You Get | What You Don't Do |
-|--------------|------------------|
-| 💰 How much you made yesterday | ❌ No spreadsheets to open |
-| 🏆 What products performed best | ❌ No manual calculations |
-| 📈 Whether you're growing or dropping | ❌ No stress or guesswork |
+## 📬 What if your report was already waiting for you?
 
----
+Imagine waking up... opening your email... and instantly knowing:
 
-## ⚡ Why People Love This
+- 💰 **How much you made yesterday**
+- 🏆 **What products performed best**
+- 📈 **Whether you're growing or dropping**
 
-| **You STOP** | **You START Getting** |
-|--------------|----------------------|
-| Checking spreadsheets manually | 📊 Daily revenue & orders |
-| Missing important trends | 📉 Growth vs yesterday |
-| Wasting time on calculations | 🧾 Full product breakdown |
-| Making decisions in the dark | 📧 Clean professional emails |
-| | 🧠 Data for real decisions |
+**No spreadsheets.**  
+**No calculations.**  
+**No stress.**
 
----
+> 💡 In one sentence: Turns your messy spreadsheet into a clean, automated daily revenue report sent straight to your inbox.
 
-## 📊 What's Inside Your Daily Report
+## ⚡ Why people love this
 
-| Metric | What It Tells You |
-|--------|-------------------|
-| 💰 **Total Revenue** | Net + gross, after returns are subtracted |
-| 📦 **Total Orders** | Real sales only — returns excluded automatically |
-| 📊 **Average Order Value** | AOV per non-return transaction |
-| 📈 **Day-over-Day %** | How yesterday compares to the day before |
-| 🏷️ **Product Breakdown** | Revenue & orders per product or category |
-| 🔄 **Returns Summary** | Refund amounts and return count by product |
+| **You STOP:** | **You START getting:** |
+|---------------|------------------------|
+| - Checking spreadsheets manually | - 📊 Daily revenue & orders |
+| - Missing important trends | - 📉 Growth vs yesterday |
+| - Wasting time on calculations | - 🧾 Full product breakdown |
+| - Making decisions in the dark | - 📧 Clean professional emails |
+| | - 🧠 Data for real decisions |
 
----
+**This isn't just data. It shows you:**
 
-## ⚙️ What's Included
+| **📈 What's growing** | **📉 What's dropping** | **⚠️ What needs attention** | **✅ How you compare** |
+|-----------------------|------------------------|----------------------------|------------------------|
 
-A complete automation system — everything included:
+*So you can make smarter decisions faster --- every single day.*
 
-📁 Daily Revenue Report
-├── 📄 Menu.gs # Control panel & setup
-├── 📄 DailyReport.gs # Data processing engine
-├── 🎛️ DailySetup.html # Easy config UI
-├── 🎛️ DailyControl.html # Test, edit, stop anytime
-├── 📈 DailyCharts.html # Interactive charts
-└── 📧 DailyEmailTemplate.html # HTML email template
+## ⚙️ What you get
 
----
+A complete automation system --- everything included:
 
-**Everything is ready. Just add and run.**
+| | |
+|-|-|
+| - 🗂️ **Menu.gs** --- control panel & setup | - 🎛️ **DailyControl.html** --- test, edit, stop anytime |
+| - ⚙️ **DailyReport.gs** --- data processing engine | - 📈 **DailyCharts.html** --- interactive charts |
+| - 🖥️ **DailySetup.html** --- easy config UI | - 📧 **DailyEmailTemplate.html** --- HTML email template |
 
----
+> **Everything is ready. Just add and run.**
 
-## 🛠️ Quick Start
+## 📊 What's inside your daily report
 
-### 1. Add the Script Files
-- Open your Google Sheet → **Extensions** → **Apps Script**
-- Create two script files: `Menu` and `DailyReport`
-- Paste the provided code into each
+| **Metric** | **What it tells you** |
+|------------|------------------------|
+| **💰 Total Revenue** | Net + gross, after returns are subtracted |
+| **📦 Total Orders** | Real sales only --- returns excluded automatically |
+| **📊 Average Order Value** | AOV per non-return transaction |
+| **📈 Day-over-Day %** | How yesterday compares to the day before |
+| **🏷️ Product Breakdown** | Revenue & orders per product or category |
+| **🔄 Returns Summary** | Refund amounts and return count by product |
 
-### 2. Add the HTML Files
-- Upload the 4 HTML files to Google Drive
-- Copy their contents into new HTML files in Apps Script:
-  - `DailySetup`
-  - `DailyControl`
-  - `DailyCharts`
-  - `DailyEmailTemplate`
+***You'll know exactly how your business performed --- instantly.***
 
-### 3. Run & Authorize
-- Refresh your spreadsheet
-- Click **☀️ Daily Revenue Report** → **Setup / Control Panel**
-- Authorize the script (one-time only)
-- Fill in your settings and click **Save & Schedule**
+## ⚠️ Important --- Read Before You Start
 
-**That's it!** The script runs daily — no computer needed.
+> **⚠️ Do NOT rename the downloaded files**
+>
+> The file names are hard-coded into the script. If you rename any file, the code will break and the menus won't load.
+>
+> **Use these exact names in Apps Script: Menu / DailyReport / DailySetup / DailyControl / DailyCharts / DailyEmailTemplate**
 
----
+> **🔐 You must accept Google's security prompt**
+>
+> The first time you run the script, Google shows a warning screen. This is normal for ALL personal Apps Script projects --- it does not mean the code is dangerous.
+>
+> Click: "Review permissions" → choose your Google account → "Advanced" → "Go to [project name]" → "Allow"
+>
+> **You only do this once.** Without this step the script will not run at all.
 
-## 🔒 Security & Privacy
+> **🚫 Do NOT put anything below your data table**
+>
+> The script reads every row below your header. Notes, totals, blank rows, or anything below your last order row will be treated as an order and skew your numbers.
+>
+> **Rule:** Row 1 = headers. Rows 2 onwards = data only. Nothing below the last data row.
 
-| No Coding | No Subscriptions | No Third-Party Tools | No Data Leaving Google |
-|-----------|------------------|---------------------|------------------------|
-| ✓ | ✓ | ✓ | ✓ |
+> **📋 Column names must match exactly**
+>
+> The names you enter in the setup form must be identical to your sheet headers --- capital letters and spaces matter.
+>
+> **Example:** *"Sale Amount" is NOT the same as "sale amount" or "SaleAmount".*
+
+## 📂 HOW TO UPLOAD & ADD ALL THE CODE FILES
+
+*Follow the steps below carefully. The whole process takes about 10 minutes.*
+
+### PART A --- Adding the .gs Script Files
+
+You have two script files: **Menu.gs** and **DailyReport.gs**. These are pasted directly into Apps Script. No uploading to Google Drive needed.
+
+| **1** | **Open your Google Sheet and go to Apps Script** |
+|-------|--------------------------------------------------|
+| | 1. Open the Google Sheet that contains your order data |
+| | 2. In the top menu bar click **Extensions** → **Apps Script** |
+| | 3. A new browser tab opens --- this is the Apps Script editor |
+| | > **💡 Tip** |
+| | > You will see a default file called "Code.gs" already open. Leave it for now --- you will replace its contents in a moment. |
+
+| **2** | **Paste the Menu.gs code** |
+|-------|----------------------------|
+| | 4. In the Apps Script editor, click the filename **Code.gs** on the left sidebar |
+| | 5. Select **ALL** existing text in the editor (Ctrl+A on Windows / Cmd+A on Mac) and delete it |
+| | 6. Open the downloaded **Menu.gs** file on your computer with Notepad (Windows) or TextEdit (Mac) |
+| | 7. Select all the text in that file (Ctrl+A / Cmd+A) and copy it (Ctrl+C / Cmd+C) |
+| | 8. Go back to the Apps Script tab and paste (Ctrl+V / Cmd+V) |
+| | 9. Now rename this file: double-click **Code.gs** in the left sidebar, type **Menu** and press Enter |
+| | > **⚠️ The name must be exactly:** |
+| | > **Menu** --- no spaces, no .gs extension needed, capital M |
+
+| **3** | **Add the DailyReport.gs file** |
+|-------|---------------------------------|
+| | 10. Click the **+ icon next to "Files"** in the left sidebar |
+| | 11. Select **Script** |
+| | 12. A new file appears --- immediately type **DailyReport** and press Enter |
+| | 13. Open the downloaded **DailyReport.gs** file on your computer with Notepad / TextEdit |
+| | 14. Select all → copy → paste into the new Apps Script file |
+| | 15. Click the **💾 Save** icon (or Ctrl+S / Cmd+S) |
+| | > **✅ After this step your left sidebar should show:** |
+| | > **Menu** and **DailyReport** --- both with a .gs icon |
+
+### PART B --- Adding the HTML Files
+
+**You have four HTML files.** These cannot be pasted directly --- you first upload them to Google Drive as plain text, then create an HTML file in Apps Script and paste the code in. Follow these steps for EACH of the four files.
+
+**The four HTML files are:**
+- **DailySetup.html**
+- **DailyControl.html**
+- **DailyCharts.html**
+- **DailyEmailTemplate.html**
+
+> **🔁 Repeat ALL steps below for each of the 4 HTML files**
+>
+> The process is identical for all four. Just swap the file name each time.
+
+| **1** | **Upload the HTML file to Google Drive as a text file** |
+|-------|---------------------------------------------------------|
+| | 16. Go to [drive.google.com](https://drive.google.com) |
+| | 17. Click **+ New** (top-left button) → select **File upload** |
+| | 18. Find and select the **DailySetup.html** file on your computer and click Open |
+| | 19. The file uploads and appears in your Google Drive |
+| | > **💡 What this does** |
+| | > Uploading the file to Drive lets you open it in Google Drive's viewer and see the raw HTML code --- which you will copy in the next step. |
+
+| **2** | **Open the uploaded file and copy all the code** |
+|-------|---------------------------------------------------|
+| | 20. In Google Drive, find the uploaded file **DailySetup.html** |
+| | 21. Double-click it --- it will open in Google Drive's file viewer/preview. You should see the raw HTML code. |
+| | 22. Click **Open with → Google Docs** (or right-click the file → Open with → Google Docs) |
+| | 23. Once it opens in Google Docs, click anywhere in the document and press **Ctrl+A / Cmd+A** to select all |
+| | 24. Press **Ctrl+C / Cmd+C** to copy everything |
+| | > **⚠️ Important** |
+| | > Make sure you copy the ENTIRE file from top to bottom. It starts with \<!DOCTYPE html\> and ends with \</html\>. If you miss any part the dialog will not display correctly. |
+
+| **3** | **Create an HTML file in Apps Script and paste the code** |
+|-------|-----------------------------------------------------------|
+| | 25. Go back to your Apps Script editor tab (the one with Menu and DailyReport) |
+| | 26. Click the **+ icon next to "Files"** in the left sidebar |
+| | 27. This time select **HTML** (not Script) |
+| | 28. A new file appears --- immediately type the name **DailySetup** and press Enter |
+| | 29. The editor opens a blank HTML template. Delete everything inside it |
+| | 30. Paste your copied code with **Ctrl+V / Cmd+V** |
+| | 31. Click **💾 Save** (Ctrl+S / Cmd+S) |
+| | > **⚠️ The name must match exactly --- no .html extension** |
+| | > Type just the name, not the extension. Apps Script adds the .html automatically: |
+| | > | **File on your computer** | **Name it THIS in Apps Script** |
+| | > |---------------------------|--------------------------------|
+| | > | DailySetup.html | **DailySetup** |
+| | > | DailyControl.html | **DailyControl** |
+| | > | DailyCharts.html | **DailyCharts** |
+| | > | DailyEmailTemplate.html | **DailyEmailTemplate** |
+
+| **4** | **Repeat for all 4 HTML files** |
+|-------|---------------------------------|
+| | Go back to Step 1 of Part B and do the same process for the remaining three files: |
+| | - **DailyControl.html** → name it **DailyControl** |
+| | - **DailyCharts.html** → name it **DailyCharts** |
+| | - **DailyEmailTemplate.html** → name it **DailyEmailTemplate** |
+
+### PART C --- Verify Everything & Run
+
+| **1** | **Check your file list** |
+|-------|--------------------------|
+| | In the Apps Script left sidebar you should now see exactly 6 files: |
+| | **File name** | **Type** |
+| |---------------|----------|
+| | **Menu** | .gs (Script) |
+| | **DailyReport** | .gs (Script) |
+| | **DailySetup** | .html |
+| | **DailyControl** | .html |
+| | **DailyCharts** | .html |
+| | **DailyEmailTemplate** | .html |
+| | *If any file is missing, go back and add it before continuing.* |
+
+| **2** | **Save and reload the spreadsheet** |
+|-------|-------------------------------------|
+| | 32. Press **Ctrl+S / Cmd+S** to save all files in Apps Script |
+| | 33. Close the Apps Script tab |
+| | 34. Go back to your Google Sheet and refresh the page (F5 / Cmd+R) |
+| | 35. After a few seconds, a new menu **☀️ Daily Revenue Report** will appear in the top menu bar |
+| | > **💡 Don't see the menu?** |
+| | > Wait 10 seconds and refresh again. If it still doesn't appear, double-check that Menu.gs is saved and that the file name is exactly "Menu" with no extra spaces. |
+
+| **3** | **Accept Google's security permission (one time only)** |
+|-------|---------------------------------------------------------|
+| | 36. Click **☀️ Daily Revenue Report** → **⚙️ Setup / Control Panel** |
+| | 37. A permissions dialog will appear --- this is Google asking you to authorise the script |
+| | 38. Click **"Review permissions"** |
+| | 39. Select your Google account |
+| | 40. Click **"Advanced"** then **"Go to [your project name] (unsafe)"** |
+| | 41. Click **"Allow"** |
+| | > **🔐 Why Google shows this warning** |
+| | > The "unsafe" label appears on ANY personal Apps Script project that has not been through Google's paid review process. It does NOT mean the code is harmful. This is your own code running in your own account. |
+
+| **4** | **Run the Setup form** |
+|-------|------------------------|
+| | 42. The **⚙️ Setup / Control Panel** window opens automatically after permissions |
+| | 43. Enter your sheet name, column names, email address, and delivery time |
+| | 44. Click **"Save & Schedule"** |
+| | 45. You will receive a test email within a few minutes to confirm everything works |
+| | > **✅ That's it!** |
+| | > From this point the script runs every day at the time you set --- no computer needs to be on, no action needed from you. |
+
+## 🔒 No risk. No complexity.
+
+| **🚫 No coding needed** | **🚫 No subscriptions** | **🚫 No third-party tools** | **🚫 No data leaving Google** |
+|-------------------------|-------------------------|----------------------------|-------------------------------|
 
 Everything runs inside your own Google account. Your data stays yours.
 
----
+## 🎯 Who this is for
 
-## 🎯 Who This Is For
+| | |
+|-|-|
+| - Small business owners | - E-commerce store managers |
+| - Online sellers (Shopify, Etsy, etc.) | - Anyone using Google Sheets for revenue |
+| - Freelancers tracking income | - People who hate manual reporting |
 
-- Small business owners
-- E-commerce store managers
-- Online sellers (Shopify, Etsy, etc.)
-- Freelancers tracking income
-- Anyone using Google Sheets for revenue
-- People who hate manual reporting
-
----
-
-## 🤔 Common Questions
+## 🤔 Common concerns --- answered
 
 **"I'm not technical."**
-> You paste the code, fill in a form, click save. That's the whole process.
+
+You paste the code, fill in a form, click save. That's the whole process. No coding, no terminal, no configuration files.
 
 **"My spreadsheet looks different."**
-> You choose your own column names during setup. The tool adapts to your structure.
+
+You choose your own column names during setup. The tool adapts to however your sheet is structured.
 
 **"I don't track returns."**
-> No problem. Just type "No" in the Return Column field.
+
+No problem. Just type "No" in the Return Column field during setup. The feature is completely optional.
 
 **"What if something breaks?"**
-> Built-in System Status screen shows any errors instantly. You can also send test reports anytime.
+
+The built-in System Status screen shows any errors instantly. You can also send yourself a test report at any time from the Control Panel.
 
 **"Will it stop if I close my laptop?"**
-> No. The trigger runs on Google's servers — set it once, it runs forever.
+
+No. The trigger runs on Google's servers --- your computer doesn't need to be on at all. Set it once and it runs forever.
 
 **"Is my data safe?"**
-> Completely. The script only reads your sheet and sends emails to addresses you set. No outside servers.
 
----
+Completely. The script only reads your sheet and sends emails to the addresses you set. Nothing goes to any outside server. It all stays in your Google account.
 
-## 🧪 Proven & Reliable
+## 🧪 Proven & reliable
 
-- ✓ Handles thousands of rows without slowing down
-- ✓ Automatically processes refunds & returns
-- ✓ Sends reports daily without fail
-- ✓ Built-in error handling & validation
-- ✓ System status screen for instant diagnostics
-- ✓ Tested on real business data
+| | |
+|-|-|
+| - Handles thousands of rows without slowing down | - Built-in error handling & validation |
+| - Automatically processes refunds & returns | - System status screen for instant diagnostics |
+| - Sends reports daily without fail | - Tested on real business data |
 
----
+> **🎁 Price: FREE --- for now**
 
-## 🎁 Price
+*No catch. No upsell. No credit card.*
 
-**FREE — for now.**
+If this saves you even 10 minutes a day --- that's hours every month.
 
-No catch. No upsell. No credit card.
+## 🚀 Start using it now
 
-If this saves you even 10 minutes a day — that's hours every month.
+*Stop digging through spreadsheets. Start making decisions.*
 
----
+Download for free and get your first report tomorrow morning.
+
+> **👉 Get Instant Access --- FREE | Set up in 10 minutes | Runs forever**
 
 ## 📬 Feedback & Support
 
@@ -165,24 +312,10 @@ This tool is completely free and I want it to keep getting better. If you:
 - Want to share how it helped your business
 - Have a question not covered in this guide
 
-Send an honest email to: **htoopyae0309@gmail.com**
+Send an honest email to: **[htoopyae0309@gmail.com](mailto:htoopyae0309@gmail.com)**
 
-*Honest feedback is always welcome — good or bad. It helps make this better for everyone.*
-
----
-
-## 📄 License
-
-**Daily Revenue Report v2.0** • Free forever • Made with Google Apps Script
+*Honest feedback is always welcome --- good or bad. It helps make this better for everyone.*
 
 ---
 
-## 🔗 Links
-
-- [Download Latest Release](https://github.com/yourusername/daily-revenue-report/releases)
-- [Report a Bug](https://github.com/yourusername/daily-revenue-report/issues)
-- [Request a Feature](https://github.com/yourusername/daily-revenue-report/issues)
-
----
-
-*Made with ☀️ for spreadsheet warriors everywhere.*
+*☀️ Daily Revenue Report v2.0 • Free forever • Made with Google Apps Script*
