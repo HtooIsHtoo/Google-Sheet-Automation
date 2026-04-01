@@ -152,13 +152,25 @@
         <td><strong>$<?= numberWithCommas(report.metricsA.totalRefundAmount.toFixed(2)) ?></strong></td>
         <td>
           <?
-            var retChg = report.metricsB.totalRefundAmount !== 0
-              ? ((report.metricsA.totalRefundAmount - report.metricsB.totalRefundAmount) / Math.abs(report.metricsB.totalRefundAmount)) * 100
-              : 0;
-            if (!isFinite(retChg)) retChg = 0;
+            var retChgDisplay;
+            if (report.metricsB.totalRefundAmount === 0 && report.metricsA.totalRefundAmount === 0) {
+              // Both zero — neutral green, no change
+              retChgDisplay = { cls: 'change-up', arrow: '▲', label: '0.0%' };
+            } else if (report.metricsB.totalRefundAmount === 0 && report.metricsA.totalRefundAmount > 0) {
+              // No returns before, returns appeared — always bad (red)
+              retChgDisplay = { cls: 'change-down', arrow: '▲', label: 'New' };
+            } else {
+              var retChg = ((report.metricsA.totalRefundAmount - report.metricsB.totalRefundAmount) / Math.abs(report.metricsB.totalRefundAmount)) * 100;
+              if (!isFinite(retChg)) retChg = 0;
+              retChgDisplay = {
+                cls: retChg > 0 ? 'change-down' : 'change-up',
+                arrow: retChg >= 0 ? '▲' : '▼',
+                label: Math.abs(retChg).toFixed(1) + '%'
+              };
+            }
           ?>
           <!-- More returns = bad, so up is red -->
-          <span class="<?= retChg > 0 ? 'change-down' : 'change-up' ?>"><?= retChg >= 0 ? '▲' : '▼' ?> <?= Math.abs(retChg).toFixed(1) ?>%</span>
+          <span class="<?= retChgDisplay.cls ?>"><?= retChgDisplay.arrow ?> <?= retChgDisplay.label ?></span>
         </td>
       </tr>
     </table>
